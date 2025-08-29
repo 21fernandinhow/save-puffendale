@@ -1,0 +1,11 @@
+<% content_for :title, "New task list" %>
+
+<h1>New task list</h1>
+
+<%= render "form", task_list: @task_list %>
+
+<br>
+
+<div>
+  <%= link_to "Back to task lists", task_lists_path %>
+</div>
