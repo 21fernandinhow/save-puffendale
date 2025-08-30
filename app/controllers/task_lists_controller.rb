@@ -31,7 +31,7 @@ class TaskListsController < ApplicationController
         format.html { redirect_to home_path, notice: "Task list criada com sucesso!" }
         format.json { render :show, status: :created, location: @task_list }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to home_path, notice: "Erro ao criar lista de tarefas :/" }
         format.json { render json: @task_list.errors, status: :unprocessable_entity }
       end
     end
