@@ -4,5 +4,12 @@
 
 <h2>Suas Task Lists</h2>
 <ul>
-  
+  <% @task_lists.each do |task_list| %>
+    <li>
+      <%= link_to task_list.name, task_list_path(task_list) %>
+    </li>
+  <% end %>
 </ul>
+
+<h2>Nova tasklist</h2>
+<%= render 'task_lists/form', task_list: @new_task_list %>

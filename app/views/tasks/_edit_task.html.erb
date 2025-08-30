@@ -1,0 +1,15 @@
+<li style="margin-bottom: 8px;">
+  <%= form_with(model: [task_list, task], local: true, html: { class: "task-form" }) do |f| %>
+    
+    <%= f.check_box :completed, { onchange: 'this.form.submit()' } %>
+
+    <%= f.text_field :name, value: task.name, placeholder: "Task name",
+        style: "margin-left: 8px;",
+        data: { original: task.name } %>
+
+    <%= f.submit "Salvar", style: "margin-left: 8px; display:none;", class: "save-btn" %>
+  <% end %>
+
+  <%= button_to "Deletar", task_list_task_path(task_list, task), method: :delete,
+        data: { confirm: "Tem certeza?" }, style: "margin-left: 8px;" %>
+</li>

@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
   def new
-    # apenas renderiza o form de login
   end
 
   def create
@@ -17,5 +16,13 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     redirect_to login_path, notice: "Você saiu com sucesso."
+  end
+
+  def root_redirect
+    if logged_in?
+      redirect_to home_path
+    else
+      redirect_to login_path
+    end
   end
 end

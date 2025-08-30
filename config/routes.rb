@@ -1,22 +1,17 @@
 Rails.application.routes.draw do
   get "home/index"
   get "sessions/new"
-  # Página inicial quando não está logado
-  root "sessions#new"
+  root "sessions#root_redirect"
 
-  # Registro de usuário
   get "signup", to: "users#new"
   post "signup", to: "users#create"
 
-  # Login / Logout
   get "login", to: "sessions#new"
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
 
-  # Home do usuário logado
   get "home", to: "home#index"
 
-  # TaskLists e Tasks (cada usuário só verá os seus)
   resources :task_lists, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     resources :tasks, only: [:index, :show, :new, :create, :edit, :update, :destroy]
   end

@@ -1,0 +1,10 @@
+<%= form_with(model: [task_list, task], local: true) do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= f.submit "Criar Task" %>
+  </div>
+<% end %>
