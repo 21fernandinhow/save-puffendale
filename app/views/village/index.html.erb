@@ -1,0 +1,9 @@
+<h1>Vilarejo</h1>
+<p>Magic Points: <%= @magic_points %></p>
+
+<h2>Conquistas desbloqueadas</h2>
+<ul>
+  <% @achievements.each do |a| %>
+    <li><%= a[:description] %> (Requer <%= a[:points_required] %> pontos)</li>
+  <% end %>
+</ul>
