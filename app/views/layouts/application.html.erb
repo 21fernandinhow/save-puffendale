@@ -22,6 +22,12 @@
   </head>
 
   <body>
+  
+    <% if logged_in? %>
+      <%= render "layouts/header_logged_in" %>
+    <% else %>
+      <%= render "layouts/header_logged_out" %>
+    <% end %>
 
     <% if flash[:notice] %>
       <div class="flash notice">

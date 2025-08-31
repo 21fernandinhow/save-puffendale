@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   # Root
-  root "sessions#root_redirect"
+  root "home#index"
 
   # Health check & PWA
   get "up", to: "rails/health#show", as: :rails_health_check

@@ -1,0 +1,8 @@
+<header class="bg-gray-800 text-white p-4 flex justify-between items-center">
+  <h1 class="text-xl font-bold">Save Puffendale</h1>
+  <nav>
+    <%= link_to "Home", home_path, class: "mr-4" %>
+    <%= link_to "Vilarejo", village_path, class: "mr-4" %>
+    <%= button_to "Sair", logout_path, method: :delete, class: "btn btn-warning" %>
+  </nav>
+</header>
