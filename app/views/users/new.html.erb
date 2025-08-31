@@ -1,25 +1,38 @@
-<h1>Criar conta</h1>
+<div class="flex items-center justify-center min-h-screen bg-base-200">
+  <div class="card w-full max-w-md shadow-lg bg-base-100">
+    <div class="card-body">
+      <h1 class="text-2xl font-bold text-center mb-6">Criar Conta</h1>
 
-<%= form_with model: @user, url: signup_path do |f| %>
-  <div>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-  
-  <div>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
-  </div>
-  
-  <div>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-  </div>
+      <%= form_with model: @user, url: signup_path, local: true do |f| %>
+        <div class="form-control mb-4">
+          <%= f.label :name, class: "label" %>
+          <%= f.text_field :name, class: "input input-bordered w-full" %>
+        </div>
 
-  <div>
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </div>
+        <div class="form-control mb-4">
+          <%= f.label :email, class: "label" %>
+          <%= f.email_field :email, class: "input input-bordered w-full" %>
+        </div>
 
-  <%= f.submit "Criar conta" %>
-<% end %>
+        <div class="form-control mb-4">
+          <%= f.label :password, class: "label" %>
+          <%= f.password_field :password, class: "input input-bordered w-full" %>
+        </div>
+
+        <div class="form-control mb-4">
+          <%= f.label :password_confirmation, class: "label" %>
+          <%= f.password_field :password_confirmation, class: "input input-bordered w-full" %>
+        </div>
+
+        <div class="form-control mt-6">
+          <%= f.submit "Criar Conta", class: "btn btn-primary w-full" %>
+        </div>
+      <% end %>
+
+      <p class="text-center mt-4">
+        Já tem conta? 
+        <%= link_to "Entrar", login_path, class: "link link-primary font-bold" %>
+      </p>
+    </div>
+  </div>
+</div>
