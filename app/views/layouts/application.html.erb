@@ -29,18 +29,51 @@
       <%= render "layouts/header_logged_out" %>
     <% end %>
 
-    <% if flash[:notice] %>
-      <div class="flash notice">
-        <%= flash[:notice] %>
-      </div>
-    <% end %>
+    <div class="toast-container fixed top-4 right-4 flex flex-col gap-2 z-50" id="flash-toasts">
+      <% if flash[:notice] %>
+        <div class="toast transition-all duration-500">
+          <div class="alert alert-success shadow-lg" role="status" aria-live="polite">
+            <span><%= flash[:notice] %></span>
+          </div>
+        </div>
+      <% end %>
 
-    <% if flash[:alert] %>
-      <div class="flash alert">
-        <%= flash[:alert] %>
-      </div>
-    <% end %>
+      <% if flash[:alert] %>
+        <div class="toast transition-all duration-500">
+          <div class="alert alert-error shadow-lg" role="status" aria-live="polite">
+            <span><%= flash[:alert] %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
 
     <%= yield %>
+
+    <script>
+      (function () {
+        function bootToasts() {
+          const container = document.getElementById('flash-toasts');
+          if (!container) return;
+
+          const toasts = container.querySelectorAll('.toast');
+          toasts.forEach((toast, i) => {
+            const visibleMs = 3000 + i * 150;
+
+            setTimeout(() => {
+              toast.classList.add('opacity-0', 'translate-y-2');
+            }, visibleMs);
+
+            setTimeout(() => {
+              toast.remove();
+              if (!container.querySelector('.toast')) container.remove();
+            }, visibleMs + 550);
+          });
+        }
+
+        window.addEventListener('turbo:load', bootToasts);
+        document.addEventListener('DOMContentLoaded', bootToasts);
+      })();
+    </script>
+
   </body>
 </html>
