@@ -3,9 +3,9 @@ class HomeController < ApplicationController
     if logged_in?
       @task_lists = current_user.task_lists.includes(:tasks)
       @new_task_list = TaskList.new
-      render :dashboard # usa a view "dashboard.html.erb"
+      render :dashboard
     else
-      render :landing # usa a view "landing.html.erb"
+      render :landing
     end
   end
 end

@@ -1,8 +1,38 @@
-<header class="bg-gray-800 text-white p-4 flex justify-between items-center">
-  <h1 class="text-xl font-bold">Save Puffendale</h1>
-  <nav>
-    <%= link_to "Home", home_path, class: "mr-4" %>
-    <%= link_to "Vilarejo", village_path, class: "mr-4" %>
-    <%= button_to "Sair", logout_path, method: :delete, class: "btn btn-warning" %>
-  </nav>
-</header>
+<div class="navbar shadow-sm">
+
+  <div class="flex-1">
+    <%= link_to home_path do %>
+      <%= image_tag "logo.webp", alt: "Logo Save Puffendale", class: "logo cursor-pointer", width: 200, height: 70 %>
+    <% end %>
+  </div>
+
+  <div class="flex-none flex items-center justify-end gap-0 md:gap-2">
+
+    <div>
+      <span class="badge badge-accent badge-md md:badge-xl">
+        ✨ <%= current_user.magic_points || 0 %>
+      </span>
+    </div>
+
+    <div class="dropdown dropdown-end">
+
+      <label tabindex="0" class="btn btn-ghost btn-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </label>
+
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+        <li><%= link_to "Home", home_path %></li>
+        <li><%= link_to "Vilarejo", village_path %></li>
+        <li>
+          <%= button_to "Sair", logout_path, method: :delete, form: { class: "w-full" }, class: "w-full text-left btn-ghost" %>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+</div>
