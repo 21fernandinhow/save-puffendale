@@ -30,6 +30,6 @@ class User < ApplicationRecord
     ]
 
     def unlocked_achievements
-        ACHIEVEMENTS.select { |item| item[:points_required] <= magic_points }
+        ACHIEVEMENTS.select { |item| item[:points_required] <= (magic_points || 0) }
     end
 end
