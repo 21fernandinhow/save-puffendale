@@ -1,15 +1,25 @@
-<li style="margin-bottom: 8px;">
-  <%= form_with(model: [task_list, task], local: true, html: { class: "task-form" }) do |f| %>
-    
-    <%= f.check_box :completed, { onchange: 'this.form.submit()' } %>
+<li class="flex items-center gap-2 py-2 px-4 rounded-lg hover:bg-base-100 transition">
+  <%= form_with(model: [task_list, task], local: true, html: { class: "task-form flex items-center flex-1" }) do |f| %>
 
-    <%= f.text_field :name, value: task.name, placeholder: "Task name",
-        style: "margin-left: 8px;",
-        data: { original: task.name } %>
+    <label class="cursor-pointer">
+      <%= f.check_box :completed, { class: "checkbox checkbox-primary", onchange: 'this.form.submit()' } %>
+    </label>
 
-    <%= f.submit "Salvar", style: "margin-left: 8px; display:none;", class: "save-btn" %>
+    <%= f.text_field :name, value: task.name, 
+      placeholder: "Task name",
+      class: "input input-ghost flex-1 ml-2",
+      data: { original: task.name } 
+    %>
+
+    <%= f.submit "Salvar", class: "btn btn-sm btn-primary ml-2 save-btn", style: "display:none;" %>
+
   <% end %>
 
-  <%= button_to "Deletar", task_list_task_path(task_list, task), method: :delete,
-        data: { confirm: "Tem certeza?" }, style: "margin-left: 8px;" %>
+  <%= button_to task_list_task_path(task_list, task), 
+    method: :delete,
+    data: { confirm: "Tem certeza?" },
+    class: "cursor-pointer ml-2 text-gray-400 hover:text-red-500" do 
+  %>
+    🗑️
+  <% end %>
 </li>

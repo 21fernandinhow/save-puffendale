@@ -1,10 +1,8 @@
-<%= form_with(model: [task_list, task], local: true) do |f| %>
-  <div>
-    <%= f.label :name %>
-    <%= f.text_field :name, required: true %>
-  </div>
+<li class="flex items-center gap-2 p-2 rounded-lg">
+  <%= form_with(model: [task_list, task], local: true, html: { class: "flex items-center flex-1" }) do |f| %>
 
-  <div>
-    <%= f.submit "Criar Task" %>
-  </div>
-<% end %>
+    <%= f.text_field :name, placeholder: "Nova tarefa...", required: true, class: "input flex-1" %>
+    <%= f.submit "Criar", class: "btn btn-sm btn-primary ml-2" %>
+
+  <% end %>
+</li>

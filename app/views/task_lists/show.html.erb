@@ -1,19 +1,57 @@
-<h1><%= @task_list.name %></h1>
+<div class="container mx-auto my-4 p-4">
 
-<h2>Tasks</h2>
-<ul>
-  <% @task_list.tasks.each do |task| %>
-    <%= render 'tasks/edit_task', task: task, task_list: @task_list %>
-  <% end %>
-</ul>
+  <div class="flex justify-between items-center gap-2 mb-4">
+    <span id="tasklist-name-display" class="text-2xl font-bold"><%= @task_list.name %></span>
+    <button id="edit-tasklist-btn" class="btn btn-ghost btn-circle btn-lg">
+      ✏️
+    </button>
 
-<h3>Adicionar nova task</h3>
-<%= render 'tasks/new_task', task: Task.new, task_list: @task_list %>
+    <%= form_with model: @task_list, local: true, html: { id: "tasklist-edit-form", class: "flex items-center gap-2", style: "display:none;" } do |f| %>
+      <%= f.text_field :name, value: @task_list.name, class: "input text-2xl", data: { original: @task_list.name } %>
+      <%= f.submit "Salvar", class: "btn btn-primary btn-sm" %>
+      <button type="button" id="cancel-tasklist-edit" class="btn btn-ghost btn-sm">Cancelar</button>
+    <% end %>
+  </div>
+
+  <h2 class="text-lg font-semibold mb-2">Tarefas</h2>
+  <ul class="space-y-2">
+    <% @task_list.tasks.each do |task| %>
+      <%= render 'tasks/edit_task', task: task, task_list: @task_list %>
+    <% end %>
+
+    <%= render 'tasks/new_task', task: Task.new, task_list: @task_list %>
+  </ul>
+
+  <div class="flex justify-between mt-6">
+    <%= link_to "← Voltar", home_path, class: "btn btn-ghost btn-primary" %>
+    <%= button_to task_list_path(@task_list), method: :delete, class: "btn btn-outline btn-error" do %> Excluir <% end %>
+  </div>
+
+</div>
 
 <script>
+  const editBtn = document.getElementById("edit-tasklist-btn");
+  const displayName = document.getElementById("tasklist-name-display");
+  const editForm = document.getElementById("tasklist-edit-form");
+  const cancelBtn = document.getElementById("cancel-tasklist-edit");
+
+  editBtn.addEventListener("click", () => {
+    displayName.style.display = "none";
+    editBtn.style.display = "none";
+    editForm.style.display = "flex";
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    displayName.style.display = "inline";
+    editBtn.style.display = "inline-flex";
+    editForm.style.display = "none";
+  });
+
   document.querySelectorAll('.task-form').forEach(form => {
     const input = form.querySelector('input[type="text"]');
     const btn = form.querySelector('.save-btn');
+
+    if (!input || !btn) return;
 
     input.addEventListener('input', () => {
       btn.style.display = (input.value !== input.dataset.original) ? 'inline-block' : 'none';
