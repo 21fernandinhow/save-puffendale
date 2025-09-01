@@ -1,9 +1,28 @@
-<h1>Vilarejo</h1>
-<p>Magic Points: <%= @magic_points %></p>
+<div class="container mx-auto my-6 p-4">
 
-<h2>Conquistas desbloqueadas</h2>
-<ul>
-  <% @achievements.each do |a| %>
-    <li><%= a[:description] %> (Requer <%= a[:points_required] %> pontos)</li>
-  <% end %>
-</ul>
+  <h1 class="text-2xl font-bold text-center mb-0">Status do Vilarejo:</h1>
+
+  <div class="text-center mt-0">
+    <% status, color =
+      if @magic_points < 60
+        ["Devastado", "text-red-500"]
+      elsif @magic_points < 300
+        ["Se recuperando", "text-yellow-500"]
+      else
+        ["Saudável", "text-green-500"]
+      end
+    %>
+    <p class="text-xl font-semibold <%= color %>"><%= status %></p>
+  </div>
+
+  <h2 class="text-lg font-semibold text-center mt-8 mb-4">Conquistas desbloqueadas</h2>
+  <div class="space-y-3">
+    <% @achievements.each do |a| %>
+      <div class="alert bg-base-100 flex justify-between items-center">
+        <span>🏆</span>
+        <span><%= a[:description] %></span>
+        <span class="badge badge-primary"><%= a[:points_required] %></span>
+      </div>
+    <% end %>
+  </div>
+</div>
