@@ -1,15 +1,42 @@
-<h1>Home</h1>
+<div class="p-6">
 
-<p>Bem-vindo, <%= current_user.name %>!</p>
+  <div class="text-center">
+    <h1 class="text-2xl font-bold mb-2">Bem-vindo, <%= current_user.name %>!</h1>
+    <p class="mb-8">Confira suas listas de tarefas:</p>
+  </div>
 
-<h2>Suas Task Lists</h2>
-<ul>
-  <% @task_lists.each do |task_list| %>
-    <li>
-      <%= link_to task_list.name, task_list_path(task_list) %>
-    </li>
-  <% end %>
-</ul>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-<h2>Nova tasklist</h2>
-<%= render 'task_lists/form', task_list: @new_task_list %>
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+
+        <h2 class="card-title">Nova Lista de Tarefas</h2>
+
+        <%= form_with(model: @new_task_list, local: true) do |form| %>
+          <div class="form-control flex gap-2">
+            <%= form.text_field :name, placeholder: "Nome da lista", class: "input input-bordered flex-1" %>
+            <%= form.submit "Criar", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+
+    <% @task_lists.each do |task_list| %>
+      <div class="card bg-base-100 shadow-xl cursor-pointer hover:shadow-2xl transition"
+          onclick="window.location='<%= task_list_path(task_list) %>'">
+        <div class="card-body">
+          <h2 class="card-title"><%= task_list.name %></h2>
+
+          <% total = task_list.tasks.count %>
+          <% completed  = task_list.tasks.where(completed: true).count %>
+          <% percent = total > 0 ? ((completed.to_f / total) * 100).round : 0 %>
+
+          <progress class="progress progress-primary w-full mt-2" value="<%= percent %>" max="100"></progress>
+          <p class="text-sm text-gray-500 mt-1"><%= percent %>% concluído</p>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>
