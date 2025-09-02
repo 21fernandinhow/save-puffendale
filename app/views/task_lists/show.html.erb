@@ -30,22 +30,25 @@
 </div>
 
 <script>
+(() => {
   const editBtn = document.getElementById("edit-tasklist-btn");
   const displayName = document.getElementById("tasklist-name-display");
   const editForm = document.getElementById("tasklist-edit-form");
   const cancelBtn = document.getElementById("cancel-tasklist-edit");
 
-  editBtn.addEventListener("click", () => {
-    displayName.style.display = "none";
-    editBtn.style.display = "none";
-    editForm.style.display = "flex";
-  });
+  if (editBtn && cancelBtn && displayName && editForm) {
+    editBtn.addEventListener("click", () => {
+      displayName.style.display = "none";
+      editBtn.style.display = "none";
+      editForm.style.display = "flex";
+    });
 
-  cancelBtn.addEventListener("click", () => {
-    displayName.style.display = "inline";
-    editBtn.style.display = "inline-flex";
-    editForm.style.display = "none";
-  });
+    cancelBtn.addEventListener("click", () => {
+      displayName.style.display = "inline";
+      editBtn.style.display = "inline-flex";
+      editForm.style.display = "none";
+    });
+  }
 
   document.querySelectorAll('.task-form').forEach(form => {
     const input = form.querySelector('input[type="text"]');
@@ -57,4 +60,5 @@
       btn.style.display = (input.value !== input.dataset.original) ? 'inline-block' : 'none';
     });
   });
+})();
 </script>
