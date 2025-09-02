@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: save_puffendale_production
-  username: save_puffendale
-  password: <%= ENV["SAVE_PUFFENDALE_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
