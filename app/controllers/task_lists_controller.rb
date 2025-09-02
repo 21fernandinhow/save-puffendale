@@ -28,7 +28,7 @@ class TaskListsController < ApplicationController
 
     respond_to do |format|
       if @task_list.save
-        format.html { redirect_to home_path, notice: "Task list criada com sucesso!" }
+        format.html { redirect_to home_path, notice: "Lista de tarefas criada com sucesso!" }
         format.json { render :show, status: :created, location: @task_list }
       else
         format.html { redirect_to home_path, alert: "Erro ao criar lista de tarefas :/" }
@@ -41,7 +41,7 @@ class TaskListsController < ApplicationController
   def update
     respond_to do |format|
       if @task_list.update(task_list_params)
-        format.html { redirect_to @task_list, notice: "Task list was successfully updated.", status: :see_other }
+        format.html { redirect_to @task_list, notice: "Lista de tarefas atualizada =)", status: :see_other }
         format.json { render :show, status: :ok, location: @task_list }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -55,7 +55,7 @@ class TaskListsController < ApplicationController
     @task_list.destroy!
 
     respond_to do |format|
-      format.html { redirect_to home_path, notice: "Task list was successfully destroyed.", status: :see_other }
+      format.html { redirect_to home_path, notice: "Lista de tarefas excluida com sucesso.", status: :see_other }
       format.json { head :no_content }
     end
   end
