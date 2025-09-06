@@ -3,16 +3,21 @@
   <h1 class="text-2xl font-bold text-center mb-0">Status do Vilarejo:</h1>
 
   <div class="text-center mt-0">
-    <% status, color =
+    <% status, color, image =
       if @magic_points < 60
-        ["Devastado", "text-red-500"]
+        ["Devastado", "text-red-500", "puffendale-devastado.webp"]
       elsif @magic_points < 300
-        ["Se recuperando", "text-yellow-500"]
+        ["Se recuperando", "text-yellow-500", "puffendale-recuperando.webp"]
       else
-        ["Saudável", "text-green-500"]
+        ["Saudável", "text-green-500", "puffendale-saudavel.webp"]
       end
     %>
+
     <p class="text-xl font-semibold <%= color %>"><%= status %></p>
+
+    <div class="flex justify-center mt-4">
+      <%= image_tag image, class: "w-64 max-w-full h-auto rounded-lg shadow-md" %>
+    </div>
   </div>
 
   <h2 class="text-lg font-semibold text-center mt-8 mb-4">Conquistas desbloqueadas</h2>
