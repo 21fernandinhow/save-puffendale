@@ -46,7 +46,7 @@ class User < ApplicationRecord
     end
 
     def weekly_decay_amount
-        WEEKLY_DECAY[difficulty.to_sym]
+        WEEKLY_DECAY[difficulty&.to_sym] || WEEKLY_DECAY[:normal]
     end
     
     def apply_weekly_decay!
@@ -55,5 +55,9 @@ class User < ApplicationRecord
         update!(
           magic_points: [magic_points - weekly_decay_amount, 0].max
         )
+    end
+
+    after_initialize do
+        self.difficulty ||= "normal" if new_record?
     end
 end
