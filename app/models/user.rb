@@ -6,6 +6,18 @@ class User < ApplicationRecord
     validates :name, presence: true
     validates :email, presence: true, uniqueness: true
 
+    enum difficulty: {
+        easy: "easy",
+        normal: "normal",
+        hard: "hard"
+    }
+    
+    WEEKLY_DECAY = {
+        easy: 5,
+        normal: 25,
+        hard: 50
+    }
+
     ACHIEVEMENTS = [
         { description: "Uma risada sincera volta a ser ouvida no vilarejo, depois de muito tempo...", points_required: 10 },
         { description: "O mercado volta a abrir suas portas!", points_required: 20 },
@@ -31,5 +43,17 @@ class User < ApplicationRecord
 
     def unlocked_achievements
         ACHIEVEMENTS.select { |item| item[:points_required] <= (magic_points || 0) }
+    end
+
+    def weekly_decay_amount
+        WEEKLY_DECAY[difficulty.to_sym]
+    end
+    
+    def apply_weekly_decay!
+        return if magic_points.to_i <= 0
+    
+        update!(
+          magic_points: [magic_points - weekly_decay_amount, 0].max
+        )
     end
 end
