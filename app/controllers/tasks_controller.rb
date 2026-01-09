@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :require_login
+  before_action :authenticate_user!
   before_action :set_task_list
   before_action :set_task, only: %i[update destroy]
 

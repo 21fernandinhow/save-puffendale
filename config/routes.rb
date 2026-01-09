@@ -11,11 +11,11 @@ Rails.application.routes.draw do
   get "manifest", to: "rails/pwa#manifest", as: :pwa_manifest
 
   # Authentication
-  get "signup", to: "users#new"
-  post "signup", to: "users#create"
-  get "login", to: "sessions#new"
-  post "login", to: "sessions#create"
-  delete "logout", to: "sessions#destroy"
+  devise_for :users, path: '', path_names: {
+    sign_in: 'login',
+    sign_up: 'signup',
+    sign_out: 'logout'
+  }
 
   # Home
   get "home", to: "home#index"

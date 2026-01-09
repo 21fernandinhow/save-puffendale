@@ -1,0 +1,47 @@
+<div class="flex items-center justify-center min-h-[90vh]">
+  <div class="card w-full max-w-md shadow-lg bg-base-100 m-4">
+    <div class="card-body">
+      <h1 class="text-2xl font-bold text-center mb-6">Login</h1>
+
+      <%= form_with model: resource,
+                    as: resource_name,
+                    url: session_path(resource_name),
+                    local: true do |f| %>
+
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="form-control mb-4">
+          <%= f.label :email, "E-mail", class: "label font-semibold" %>
+          <%= f.email_field :email, autofocus: true,
+                autocomplete: "email",
+                class: "input input-bordered w-full" %>
+        </div>
+
+        <div class="form-control mb-4">
+          <%= f.label :password, "Senha", class: "label font-semibold" %>
+          <%= f.password_field :password,
+                autocomplete: "current-password",
+                class: "input input-bordered w-full" %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="form-control mb-4 flex items-center gap-2">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me, "Lembrar de mim" %>
+          </div>
+        <% end %>
+
+        <div class="form-control mt-6">
+          <%= f.submit "Entrar", class: "btn btn-primary w-full" %>
+        </div>
+      <% end %>
+
+      <p class="text-center mt-4">
+        Não tem conta?
+        <%= link_to "Criar conta",
+              new_user_registration_path,
+              class: "link link-primary font-bold" %>
+      </p>
+    </div>
+  </div>
+</div>

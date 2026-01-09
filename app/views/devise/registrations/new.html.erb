@@ -3,7 +3,13 @@
     <div class="card-body">
       <h1 class="text-2xl font-bold text-center mb-6">Criar Conta</h1>
 
-      <%= form_with model: @user, url: signup_path, local: true do |f| %>
+      <%= form_with model: resource,
+                    as: resource_name,
+                    url: registration_path(resource_name),
+                    local: true do |f| %>
+
+        <%= render "devise/shared/error_messages", resource: resource %>
+
         <div class="form-control mb-4">
           <%= f.label :name, "Nome", class: "label font-semibold" %>
           <%= f.text_field :name, class: "input input-bordered w-full" %>
@@ -30,8 +36,8 @@
       <% end %>
 
       <p class="text-center mt-4">
-        Já tem conta? 
-        <%= link_to "Entrar", login_path, class: "link link-primary font-bold" %>
+        Já tem conta?
+        <%= link_to "Entrar", new_user_session_path, class: "link link-primary font-bold" %>
       </p>
     </div>
   </div>

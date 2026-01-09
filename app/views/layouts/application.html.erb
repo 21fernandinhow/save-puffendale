@@ -22,7 +22,7 @@
 
   <body class="bg-base-200 min-h-screen">
 
-    <% if logged_in? %>
+    <% if user_signed_in? %>
       <%= render "layouts/header_logged_in" %>
     <% else %>
       <%= render "layouts/header_logged_out" %>

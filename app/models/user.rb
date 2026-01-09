@@ -1,23 +1,26 @@
 class User < ApplicationRecord
-    has_secure_password
-    
+    devise :database_authenticatable,
+           :registerable,
+           :recoverable,
+           :rememberable,
+           :validatable
+  
     has_many :task_lists, dependent: :destroy
   
     validates :name, presence: true
-    validates :email, presence: true, uniqueness: true
-
+  
     enum difficulty: {
         easy: "easy",
         normal: "normal",
         hard: "hard"
     }
-    
+  
     WEEKLY_DECAY = {
         easy: 5,
         normal: 25,
         hard: 50
     }
-
+  
     ACHIEVEMENTS = [
         { description: "Uma risada sincera volta a ser ouvida no vilarejo, depois de muito tempo...", points_required: 10 },
         { description: "O mercado volta a abrir suas portas!", points_required: 20 },
@@ -40,23 +43,23 @@ class User < ApplicationRecord
         { description: "A bruxa está velha e fraca.", points_required: 380 },
         { description: "O vilarejo brilha como um lugar feliz e próspero.", points_required: 400 }
     ]
-
+  
     def unlocked_achievements
         ACHIEVEMENTS.select { |item| item[:points_required] <= (magic_points || 0) }
     end
-
+  
     def weekly_decay_amount
         WEEKLY_DECAY[difficulty&.to_sym] || WEEKLY_DECAY[:normal]
     end
-    
+  
     def apply_weekly_decay!
         return if magic_points.to_i <= 0
-    
+  
         update!(
-          magic_points: [magic_points - weekly_decay_amount, 0].max
+            magic_points: [magic_points - weekly_decay_amount, 0].max
         )
     end
-
+  
     after_initialize do
         self.difficulty ||= "normal" if new_record?
     end

@@ -28,7 +28,7 @@
         <li><%= link_to "Home", home_path %></li>
         <li><%= link_to "Vilarejo", village_path %></li>
         <li>
-          <%= button_to "Sair", logout_path, method: :delete, form: { class: "w-full" }, class: "w-full text-left btn-ghost" %>
+          <%= button_to "Sair", destroy_user_session_path, method: :delete, form: { class: "w-full" }, class: "w-full text-left btn-ghost" %>
         </li>
       </ul>
 

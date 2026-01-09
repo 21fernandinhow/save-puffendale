@@ -1,5 +1,5 @@
 class TaskListsController < ApplicationController
-  before_action :require_login
+  before_action :authenticate_user!
   before_action :set_task_list, only: %i[ show edit update destroy ]
   before_action :require_ownership, only: %i[show edit update destroy]
 
