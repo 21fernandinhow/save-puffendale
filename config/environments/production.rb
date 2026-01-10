@@ -51,7 +51,7 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
 
   puts "variavel env do resend api key: " + ENV.fetch("RESEND_API_KEY")
-  puts "variavel env do resend mailer sender: " + ENV.fetch("RESEND_API_KEY")
+  puts "variavel env do resend mailer sender: " + ENV.fetch("MAILER_SENDER")
 
   config.force_ssl = true
 
