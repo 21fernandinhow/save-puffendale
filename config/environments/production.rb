@@ -52,7 +52,7 @@ Rails.application.configure do
   config.force_ssl = true
 
   config.action_mailer.default_options = {
-    from: "Save Puffendale <onboarding@resend.dev>"
+    from: "onboarding@resend.dev"
   }
 
   config.action_mailer.delivery_method = :resend
