@@ -59,17 +59,17 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    address: "smtp.sendgrid.net",
     port: 587,
     domain: "save-puffendale-production.up.railway.app",
-    user_name: ENV.fetch("MAILER_USERNAME"),
+    user_name: "apikey",
     password: ENV.fetch("MAILER_PASSWORD"),
     authentication: :plain,
     enable_starttls_auto: true
   }
 
   config.action_mailer.default_options = {
-    from: ENV.fetch("MAILER_USERNAME")
+    from: "savepuffendale@gmail.com"
   }
 
   # Skip http-to-https redirect for the default health check endpoint.
