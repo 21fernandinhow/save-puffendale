@@ -52,10 +52,20 @@ Rails.application.configure do
 
   config.force_ssl = true
 
-  config.action_mailer.delivery_method = :resend
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "save-puffendale-production.up.railway.app",
+    user_name: ENV.fetch("MAILER_USERNAME"),
+    password: ENV.fetch("MAILER_PASSWORD"),
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 
-  config.action_mailer.resend_settings = {
-    api_key: ENV.fetch("RESEND_API_KEY")
+  # Definir remetente padrão
+  config.action_mailer.default_options = {
+    from: ENV.fetch("MAILER_USERNAME")
   }
 
   # Skip http-to-https redirect for the default health check endpoint.
