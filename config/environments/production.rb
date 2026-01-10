@@ -51,18 +51,14 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  config.action_mailer.default_options = {
-    from: "onboarding@resend.dev"
-  }
-
   config.action_mailer.delivery_method = :resend
 
   config.action_mailer.resend_settings = {
-    api_key: ENV["RESEND_API_KEY"]
+    api_key: ENV.fetch("RESEND_API_KEY")
   }
 
   config.action_mailer.default_options = {
-    from: ENV["MAILER_SENDER"]
+    from: ENV.fetch("MAILER_SENDER")
   }
 
   # Skip http-to-https redirect for the default health check endpoint.
