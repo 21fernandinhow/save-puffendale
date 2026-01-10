@@ -60,12 +60,13 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "smtp.sendgrid.net",
-    port: 587,
-    domain: "save-puffendale-production.up.railway.app",
+    port: 465,
+    domain: "save-puffendale-production.up.railway.app", # pode manter seu domínio Railway
     user_name: "apikey",
     password: ENV.fetch("MAILER_PASSWORD"),
     authentication: :plain,
-    enable_starttls_auto: true
+    ssl: true,             # SSL direto na porta 465
+    enable_starttls_auto: false # desliga STARTTLS
   }
 
   config.action_mailer.default_options = {
