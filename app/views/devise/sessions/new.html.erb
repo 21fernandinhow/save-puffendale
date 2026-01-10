@@ -37,6 +37,12 @@
       <% end %>
 
       <p class="text-center mt-4">
+        <%= link_to "Esqueceu sua senha?",
+              new_user_password_path,
+              class: "link link-primary" %>
+      </p>
+
+      <p class="text-center mt-4">
         Não tem conta?
         <%= link_to "Criar conta",
               new_user_registration_path,
