@@ -52,6 +52,11 @@ Rails.application.configure do
 
   config.force_ssl = true
 
+  config.action_mailer.default_url_options = {
+    host: "save-puffendale-production.up.railway.app",
+    protocol: "https"
+  }
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
@@ -63,7 +68,6 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
-  # Definir remetente padrão
   config.action_mailer.default_options = {
     from: ENV.fetch("MAILER_USERNAME")
   }
