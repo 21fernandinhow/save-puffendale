@@ -51,11 +51,10 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  config.action_mailer.default_url_options = {
-    host: "save-puffendale-production.up.railway.app",
-    protocol: "https"
+  config.action_mailer.default_options = {
+    from: "Save Puffendale <onboarding@resend.dev>"
   }
-  
+
   config.action_mailer.delivery_method = :resend
 
   config.action_mailer.resend_settings = {
