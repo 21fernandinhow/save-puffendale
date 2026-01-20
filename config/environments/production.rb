@@ -57,22 +57,14 @@ Rails.application.configure do
     protocol: "https"
   }
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: "smtp.sendgrid.net",
-    port: 587,
-    domain: "save-puffendale-production.up.railway.app",
-    user_name: "apikey",
-    password: ENV.fetch("MAILER_PASSWORD"),
-    authentication: :plain,
-    enable_starttls_auto: true,
-    open_timeout: 60,
-    read_timeout: 60  
+  # 👉 RESEND
+  config.action_mailer.delivery_method = :resend
+
+  config.action_mailer.resend_settings = {
+    api_key: ENV.fetch("RESEND_API_KEY")
   }
 
-  config.action_mailer.default_options = {
-    from: "savepuffendale@gmail.com"
-  }
+  config.action_mailer.default_options = "onboarding@resend.dev"
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
@@ -90,11 +82,8 @@ Rails.application.configure do
   # want to log everything, set the level to "debug".
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
-  # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
-
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter = :resque
+  config.active_job.queue_adapter = :async
   # config.active_job.queue_name_prefix = "save_puffendale_production"
 
   # Disable caching for Action Mailer templates even if Action Controller
