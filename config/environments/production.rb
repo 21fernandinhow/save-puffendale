@@ -64,7 +64,9 @@ Rails.application.configure do
     api_key: ENV.fetch("RESEND_API_KEY")
   }
 
-  config.action_mailer.default_options = "onboarding@resend.dev"
+  config.action_mailer.default_options = {
+    from: "onboarding@resend.dev"
+  }
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
