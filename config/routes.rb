@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # Village
   get "village", to: "village#index"
 
+  # Game Mode
+  resource :game_mode, only: [:show, :update]
+
   # TaskLists and Tasks
   resources :task_lists do
     resources :tasks

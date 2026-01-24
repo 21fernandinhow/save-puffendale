@@ -1,0 +1,96 @@
+<div class="max-w-4xl mx-auto p-6 space-y-10">
+
+  <div class="text-center space-y-4">
+    <h1 class="text-4xl font-bold">Modo de Jogo</h1>
+  </div>
+
+  <div class="prose prose-invert max-w-none">
+    <p>
+      Restaurar o vilarejo não é um caminho solitário.
+      <strong>A cada segunda-feira</strong>, sob o luar, a bruxa lança novos rituais
+      para enfraquecer tudo o que foi reconstruído.
+    </p>
+    <p>
+      O modo de jogo define <strong>a intensidade desses contra-ataques</strong>.
+      Modos mais difíceis exigem constância, disciplina e ação frequente —
+      mas também tornam cada conquista mais significativa.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <div class="card bg-base-200 border border-success">
+      <div class="card-body items-center text-center space-y-3">
+        <h2 class="card-title text-success text-2xl">Easy</h2>
+
+        <p class="text-sm opacity-80">
+          A bruxa age lentamente.
+          Ideal para progresso calmo e consistente.
+        </p>
+
+        <p class="text-sm">
+          − <strong>5 pontos</strong> por semana
+        </p>
+
+        <%= form_with model: @user, url: game_mode_path, method: :patch do |f| %>
+          <%= f.hidden_field :difficulty, value: "easy" %>
+          <button class="btn btn-success w-full">
+            Selecionar
+          </button>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 border border-warning">
+      <div class="card-body items-center text-center space-y-3">
+        <h2 class="card-title text-warning text-2xl">Normal</h2>
+
+        <p class="text-sm opacity-80">
+          Pressão equilibrada.
+          Exige constância.
+        </p>
+
+        <p class="text-sm">
+          − <strong>25 pontos</strong> por semana
+        </p>
+
+        <%= form_with model: @user, url: game_mode_path, method: :patch do |f| %>
+          <%= f.hidden_field :difficulty, value: "normal" %>
+          <button class="btn btn-warning w-full">
+            Selecionar
+          </button>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 border border-error">
+      <div class="card-body items-center text-center space-y-3">
+        <h2 class="card-title text-error text-2xl">Hard</h2>
+
+        <p class="text-sm opacity-80">
+          A bruxa não perdoa.
+          Falhar custa caro.
+        </p>
+
+        <p class="text-sm">
+          − <strong>50 pontos</strong> por semana
+        </p>
+
+        <%= form_with model: @user, url: game_mode_path, method: :patch do |f| %>
+          <%= f.hidden_field :difficulty, value: "hard" %>
+          <button class="btn btn-error w-full">
+            Selecionar
+          </button>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="flex items-center justify-center gap-2 opacity-70">
+    <span class="text-2xl font-bold text-base-content opacity-100 text-center">
+      Modo de jogo atual: <%= (@user.difficulty || "não definido").capitalize %>
+    </span>
+  </div>
+
+</div>

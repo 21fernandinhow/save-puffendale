@@ -27,6 +27,7 @@
       <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
         <li><%= link_to "Home", home_path %></li>
         <li><%= link_to "Vilarejo", village_path %></li>
+        <li><%= link_to "Modo de Jogo", game_mode_path %></li>
         <li>
           <%= button_to "Sair", destroy_user_session_path, method: :delete, form: { class: "w-full" }, class: "w-full text-left btn-ghost" %>
         </li>
