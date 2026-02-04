@@ -15,11 +15,11 @@
 
   <h2 class="text-lg font-semibold mb-2">Tarefas</h2>
   <ul class="space-y-2">
+    <%= render 'tasks/new_task', task: Task.new, task_list: @task_list %>
+
     <% @task_list.tasks.each do |task| %>
       <%= render 'tasks/edit_task', task: task, task_list: @task_list %>
     <% end %>
-
-    <%= render 'tasks/new_task', task: Task.new, task_list: @task_list %>
   </ul>
 
   <div class="flex justify-between mt-6">
