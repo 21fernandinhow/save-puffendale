@@ -7,6 +7,7 @@ if (!window.__pwaDeferredPromptInitialized) {
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault()
     window.__pwaDeferredPrompt = e
+    window.dispatchEvent(new CustomEvent("pwa:deferred-prompt"))
   })
 }
 
@@ -16,6 +17,12 @@ export default class extends Controller {
     "panelSafariIos",
     "panelSafariMac",
     "panelChromium",
+    "safariIosLoader",
+    "safariIosContent",
+    "safariMacLoader",
+    "safariMacContent",
+    "chromiumLoader",
+    "chromiumContent",
     "chromiumFallback",
     "installButton",
     "installedToast",
@@ -23,6 +30,14 @@ export default class extends Controller {
 
   connect() {
     this.deferredPrompt = window.__pwaDeferredPrompt
+
+    this._onDeferredPromptReady = () => {
+      if (this._activeMode !== "chromium") return
+      this.deferredPrompt = window.__pwaDeferredPrompt
+      this._maybeShowInstallButton()
+    }
+
+    window.addEventListener("pwa:deferred-prompt", this._onDeferredPromptReady)
 
     this._onAppInstalled = () => {
       this.deferredPrompt = null
@@ -33,31 +48,48 @@ export default class extends Controller {
       }
 
       if (this.hasInstalledToastTarget) {
+        if (this._activeMode === "chromium") {
+          this._revealChromiumContent()
+        }
         this.installedToastTarget.classList.remove("hidden")
       }
     }
 
     window.addEventListener("appinstalled", this._onAppInstalled)
 
-    // delay leve pra não parecer agressivo
-    setTimeout(() => {
-      this._showInitialPanel()
-      this._maybeShowInstallButton()
-    }, 1200)
+    this._showInitialPanel()
 
-    // fallback mais rápido
-    this._chromiumTimer = setTimeout(() => {
-      if (this._activeMode === "chromium" && !this.deferredPrompt) {
-        if (this.hasChromiumFallbackTarget) {
+    if (this._activeMode === "safari_ios" || this._activeMode === "safari_mac") {
+      this._safariRevealTimer = window.setTimeout(() => {
+        if (this._activeMode === "safari_ios") {
+          this._revealSafariIosContent()
+        } else if (this._activeMode === "safari_mac") {
+          this._revealSafariMacContent()
+        }
+      }, 1200)
+    } else if (this._activeMode === "chromium") {
+      this.deferredPrompt = window.__pwaDeferredPrompt
+      if (this.deferredPrompt) {
+        this._revealChromiumContent()
+        this._maybeShowInstallButton()
+      }
+
+      this._chromiumTimer = window.setTimeout(() => {
+        if (this._activeMode !== "chromium") return
+        this.deferredPrompt = window.__pwaDeferredPrompt
+        if (!this.deferredPrompt && this.hasChromiumFallbackTarget) {
           this.chromiumFallbackTarget.classList.remove("hidden")
         }
-      }
-    }, 4000)
+        this._revealChromiumContent()
+      }, 4000)
+    }
   }
 
   disconnect() {
+    window.removeEventListener("pwa:deferred-prompt", this._onDeferredPromptReady)
     window.removeEventListener("appinstalled", this._onAppInstalled)
-    if (this._chromiumTimer) clearTimeout(this._chromiumTimer)
+    if (this._safariRevealTimer) window.clearTimeout(this._safariRevealTimer)
+    if (this._chromiumTimer) window.clearTimeout(this._chromiumTimer)
   }
 
   async install() {
@@ -78,8 +110,36 @@ export default class extends Controller {
     }
   }
 
+  _revealSafariIosContent() {
+    if (this.hasSafariIosLoaderTarget) {
+      this.safariIosLoaderTarget.classList.add("hidden")
+    }
+    if (this.hasSafariIosContentTarget) {
+      this.safariIosContentTarget.classList.remove("hidden")
+    }
+  }
+
+  _revealSafariMacContent() {
+    if (this.hasSafariMacLoaderTarget) {
+      this.safariMacLoaderTarget.classList.add("hidden")
+    }
+    if (this.hasSafariMacContentTarget) {
+      this.safariMacContentTarget.classList.remove("hidden")
+    }
+  }
+
+  _revealChromiumContent() {
+    if (this.hasChromiumLoaderTarget) {
+      this.chromiumLoaderTarget.classList.add("hidden")
+    }
+    if (this.hasChromiumContentTarget) {
+      this.chromiumContentTarget.classList.remove("hidden")
+    }
+  }
+
   _maybeShowInstallButton() {
     if (this.deferredPrompt && this.hasInstallButtonTarget) {
+      this._revealChromiumContent()
       this.installButtonTarget.classList.remove("hidden")
     }
   }

@@ -25,24 +25,36 @@
       <div class="card-body gap-4">
         <h2 class="card-title text-lg">iPhone ou iPad</h2>
 
-        <p class="text-sm text-base-content/80">
-          Para instalar, use o botão de compartilhar:
-        </p>
+        <div
+          data-pwa-install-target="safariIosLoader"
+          class="flex flex-col items-center justify-center gap-3 py-6"
+          role="status"
+          aria-live="polite"
+        >
+          <span class="loading loading-spinner loading-md text-primary" aria-hidden="true"></span>
+          <p class="text-sm text-base-content/70">Preparando instruções…</p>
+        </div>
 
-        <ol class="list-decimal list-inside space-y-2 text-sm">
-          <li>
-            Toque em <strong>Compartilhar</strong>
-            <span class="inline-flex align-middle ml-1">
-              <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="10" width="14" height="9" rx="3" />
-                <path d="M12 5V13" />
-                <path d="M9 8L12 5L15 8" />
-              </svg>
-            </span>
-          </li>
-          <li>Toque em <strong>Adicionar à Tela de Início</strong>.</li>
-          <li>Confirme em <strong>Adicionar</strong>.</li>
-        </ol>
+        <div data-pwa-install-target="safariIosContent" class="hidden">
+          <p class="text-sm text-base-content/80">
+            Para instalar, use o botão de compartilhar:
+          </p>
+
+          <ol class="list-decimal list-inside space-y-2 text-sm mt-2">
+            <li>
+              Toque em <strong>Compartilhar</strong>
+              <span class="inline-flex align-middle ml-1">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="10" width="14" height="9" rx="3" />
+                  <path d="M12 5V13" />
+                  <path d="M9 8L12 5L15 8" />
+                </svg>
+              </span>
+            </li>
+            <li>Toque em <strong>Adicionar à Tela de Início</strong>.</li>
+            <li>Confirme em <strong>Adicionar</strong>.</li>
+          </ol>
+        </div>
       </div>
     </div>
   </div>
@@ -53,24 +65,36 @@
       <div class="card-body gap-4">
         <h2 class="card-title text-lg">Mac (Safari)</h2>
 
-        <p class="text-sm text-base-content/80">
-          Adicione como app direto no Dock:
-        </p>
+        <div
+          data-pwa-install-target="safariMacLoader"
+          class="flex flex-col items-center justify-center gap-3 py-6"
+          role="status"
+          aria-live="polite"
+        >
+          <span class="loading loading-spinner loading-md text-primary" aria-hidden="true"></span>
+          <p class="text-sm text-base-content/70">Preparando instruções…</p>
+        </div>
 
-        <ol class="list-decimal list-inside space-y-2 text-sm">
-          <li>
-            Clique em <strong>Compartilhar</strong>
-            <span class="inline-flex align-middle ml-1">
-              <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="10" width="14" height="9" rx="3" />
-                <path d="M12 5V13" />
-                <path d="M9 8L12 5L15 8" />
-              </svg>
-            </span>
-          </li>
-          <li>Escolha <strong>Adicionar ao Dock</strong>.</li>
-          <li>Confirme e abra pelo Dock.</li>
-        </ol>
+        <div data-pwa-install-target="safariMacContent" class="hidden">
+          <p class="text-sm text-base-content/80">
+            Adicione como app direto no Dock:
+          </p>
+
+          <ol class="list-decimal list-inside space-y-2 text-sm mt-2">
+            <li>
+              Clique em <strong>Compartilhar</strong>
+              <span class="inline-flex align-middle ml-1">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="10" width="14" height="9" rx="3" />
+                  <path d="M12 5V13" />
+                  <path d="M9 8L12 5L15 8" />
+                </svg>
+              </span>
+            </li>
+            <li>Escolha <strong>Adicionar ao Dock</strong>.</li>
+            <li>Confirme e abra pelo Dock.</li>
+          </ol>
+        </div>
       </div>
     </div>
   </div>
@@ -81,30 +105,42 @@
       <div class="card-body gap-4">
         <h2 class="card-title text-lg">Chrome, Edge e similares</h2>
 
-        <p class="text-sm text-base-content/80">
-          Instale com um clique:
-        </p>
-
-        <button
-          type="button"
-          class="btn btn-primary w-full hidden"
-          data-pwa-install-target="installButton"
-          data-action="click->pwa-install#install"
+        <div
+          data-pwa-install-target="chromiumLoader"
+          class="flex flex-col items-center justify-center gap-3 py-6"
+          role="status"
+          aria-live="polite"
         >
-          Instalar app
-        </button>
-
-        <div data-pwa-install-target="chromiumFallback" class="hidden alert alert-warning">
-          <span class="text-sm">
-            Se o botão não aparecer, abra o menu (⋮) e toque em
-            <strong>Instalar app</strong> ou <strong>Adicionar à tela inicial</strong>.
-          </span>
+          <span class="loading loading-spinner loading-md text-primary" aria-hidden="true"></span>
+          <p class="text-sm text-base-content/70">Verificando se podemos instalar pelo navegador…</p>
         </div>
 
-        <div data-pwa-install-target="installedToast" class="hidden alert alert-success mt-2">
-          <span class="text-sm">
-            App instalado. Abra pelo atalho criado.
-          </span>
+        <div data-pwa-install-target="chromiumContent" class="hidden">
+          <p class="text-sm text-base-content/80">
+            Instale com um clique:
+          </p>
+
+          <button
+            type="button"
+            class="btn btn-primary w-full mt-2 hidden"
+            data-pwa-install-target="installButton"
+            data-action="click->pwa-install#install"
+          >
+            Instalar app
+          </button>
+
+          <div data-pwa-install-target="chromiumFallback" class="hidden alert alert-warning mt-2">
+            <span class="text-sm">
+              Se o botão não aparecer, abra o menu (⋮) e toque em
+              <strong>Instalar app</strong> ou <strong>Adicionar à tela inicial</strong>.
+            </span>
+          </div>
+
+          <div data-pwa-install-target="installedToast" class="hidden alert alert-success mt-2">
+            <span class="text-sm">
+              App instalado. Abra pelo atalho criado.
+            </span>
+          </div>
         </div>
       </div>
     </div>
