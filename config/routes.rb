@@ -17,6 +17,9 @@ Rails.application.routes.draw do
     sign_out: 'logout'
   }
 
+  # Install PWA
+  get "instalar", to: "install#show"
+
   # Home
   get "home", to: "home#index"
 

@@ -1,0 +1,76 @@
+<% content_for :title, "Instalar app — Save Puffendale" %>
+
+<div
+  class="container mx-auto my-6 px-4 max-w-lg min-h-[85vh]"
+  data-controller="pwa-install"
+>
+  <h1 class="text-2xl font-bold text-center mb-6">Instalar o Save Puffendale</h1>
+  <p class="text-center text-base-content/80 mb-6">
+    Adicione o site como aplicativo para abrir rápido e usar em tela cheia.
+  </p>
+
+  <div data-pwa-install-target="panelInstalled" class="hidden">
+    <div class="alert alert-success shadow-lg">
+      <span>Você já está usando o app instalado (modo standalone). Bom jogo!</span>
+    </div>
+  </div>
+
+  <div data-pwa-install-target="panelSafariIos" class="hidden">
+    <div class="card bg-base-100 shadow-md">
+      <div class="card-body gap-4">
+        <h2 class="card-title text-lg">iPhone ou iPad</h2>
+        <p class="text-sm text-base-content/80">
+          No Safari ou em outros navegadores no iOS, a instalação é feita pelo menu Compartilhar:
+        </p>
+        <ol class="list-decimal list-inside space-y-2 text-sm">
+          <li>Toque no botão <strong>Compartilhar</strong> (quadrado com seta para cima).</li>
+          <li>Role e escolha <strong>Adicionar à Tela de Início</strong>.</li>
+          <li>Confirme o nome e toque em <strong>Adicionar</strong>.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div data-pwa-install-target="panelSafariMac" class="hidden">
+    <div class="card bg-base-100 shadow-md">
+      <div class="card-body gap-4">
+        <h2 class="card-title text-lg">Mac (Safari)</h2>
+        <p class="text-sm text-base-content/80">
+          No Safari recente (macOS), você pode fixar o site como app no Dock:
+        </p>
+        <ol class="list-decimal list-inside space-y-2 text-sm">
+          <li>Com este site aberto no Safari, use o menu <strong>Arquivo</strong>.</li>
+          <li>Escolha <strong>Adicionar ao Dock</strong> (ou equivalente na sua versão do sistema).</li>
+          <li>Confirme para criar o atalho e abra o app pelo Dock quando quiser.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div data-pwa-install-target="panelChromium" class="hidden">
+    <div class="card bg-base-100 shadow-md">
+      <div class="card-body gap-4">
+        <h2 class="card-title text-lg">Chrome, Edge ou navegador compatível</h2>
+        <p class="text-sm text-base-content/80">
+          Se o navegador oferecer instalação, use o botão abaixo quando ele aparecer.
+        </p>
+        <button
+          type="button"
+          class="btn btn-primary w-full hidden"
+          data-pwa-install-target="installButton"
+          data-action="click->pwa-install#install"
+        >
+          Instalar app
+        </button>
+        <div data-pwa-install-target="chromiumFallback" class="hidden alert alert-warning">
+          <span class="text-sm">
+            O navegador não ofereceu o instalador automático. Isso é comum em HTTP local ou se os requisitos de PWA não forem atendidos. Em produção com HTTPS, use Chrome ou Edge atualizados; no celular Android, use o menu do navegador (Instalar app ou Adicionar à tela inicial).
+          </span>
+        </div>
+        <div data-pwa-install-target="installedToast" class="hidden alert alert-success mt-2">
+          <span class="text-sm">Instalação concluída. Você pode abrir o app pelo atalho.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
