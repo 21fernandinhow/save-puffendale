@@ -1,5 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
 
+if (!window.__pwaDeferredPromptInitialized) {
+  window.__pwaDeferredPromptInitialized = true
+  window.__pwaDeferredPrompt = null
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault()
+    window.__pwaDeferredPrompt = e
+  })
+}
+
 export default class extends Controller {
   static targets = [
     "panelInstalled",
@@ -12,49 +22,65 @@ export default class extends Controller {
   ]
 
   connect() {
-    this.deferredPrompt = null
-    this._onBeforeInstall = (e) => {
-      e.preventDefault()
-      this.deferredPrompt = e
-      if (this.hasInstallButtonTarget) {
-        this.installButtonTarget.classList.remove("hidden")
-      }
-    }
+    this.deferredPrompt = window.__pwaDeferredPrompt
+
     this._onAppInstalled = () => {
       this.deferredPrompt = null
+      window.__pwaDeferredPrompt = null
+
       if (this.hasInstallButtonTarget) {
         this.installButtonTarget.classList.add("hidden")
       }
+
       if (this.hasInstalledToastTarget) {
         this.installedToastTarget.classList.remove("hidden")
       }
     }
 
-    window.addEventListener("beforeinstallprompt", this._onBeforeInstall)
     window.addEventListener("appinstalled", this._onAppInstalled)
 
-    this._showInitialPanel()
+    // delay leve pra não parecer agressivo
+    setTimeout(() => {
+      this._showInitialPanel()
+      this._maybeShowInstallButton()
+    }, 1200)
 
-    this._chromiumTimer = window.setTimeout(() => {
-      if (this._activeMode === "chromium" && !this.deferredPrompt && this.hasChromiumFallbackTarget) {
-        this.chromiumFallbackTarget.classList.remove("hidden")
+    // fallback mais rápido
+    this._chromiumTimer = setTimeout(() => {
+      if (this._activeMode === "chromium" && !this.deferredPrompt) {
+        if (this.hasChromiumFallbackTarget) {
+          this.chromiumFallbackTarget.classList.remove("hidden")
+        }
       }
-    }, 8000)
+    }, 4000)
   }
 
   disconnect() {
-    window.removeEventListener("beforeinstallprompt", this._onBeforeInstall)
     window.removeEventListener("appinstalled", this._onAppInstalled)
-    if (this._chromiumTimer) window.clearTimeout(this._chromiumTimer)
+    if (this._chromiumTimer) clearTimeout(this._chromiumTimer)
   }
 
   async install() {
     if (!this.deferredPrompt) return
+
     this.deferredPrompt.prompt()
-    await this.deferredPrompt.userChoice
+    const choice = await this.deferredPrompt.userChoice
+
+    if (choice.outcome === "accepted") {
+      // opcional: analytics
+    }
+
     this.deferredPrompt = null
+    window.__pwaDeferredPrompt = null
+
     if (this.hasInstallButtonTarget) {
       this.installButtonTarget.classList.add("hidden")
+    }
+  }
+
+  _maybeShowInstallButton() {
+    if (this.deferredPrompt && this.hasInstallButtonTarget) {
+      this.installButtonTarget.classList.remove("hidden")
     }
   }
 
@@ -72,17 +98,17 @@ export default class extends Controller {
     return navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1
   }
 
-  _isSafariMac() {
-    const ua = navigator.userAgent
-    return /^((?!chrome|android).)*safari/i.test(ua) && !this._isIos()
+  _isSafari() {
+    const ua = navigator.userAgent.toLowerCase()
+    return ua.includes("safari") && !ua.includes("chrome") && !ua.includes("android")
   }
 
   _hideAllPanels() {
-    if (this.hasPanelInstalledTarget) this.panelInstalledTarget.classList.add("hidden")
-    if (this.hasPanelSafariIosTarget) this.panelSafariIosTarget.classList.add("hidden")
-    if (this.hasPanelSafariMacTarget) this.panelSafariMacTarget.classList.add("hidden")
-    if (this.hasPanelChromiumTarget) this.panelChromiumTarget.classList.add("hidden")
-    if (this.hasChromiumFallbackTarget) this.chromiumFallbackTarget.classList.add("hidden")
+    this.panelInstalledTarget?.classList.add("hidden")
+    this.panelSafariIosTarget?.classList.add("hidden")
+    this.panelSafariMacTarget?.classList.add("hidden")
+    this.panelChromiumTarget?.classList.add("hidden")
+    this.chromiumFallbackTarget?.classList.add("hidden")
   }
 
   _showInitialPanel() {
@@ -90,34 +116,24 @@ export default class extends Controller {
 
     if (this._isStandalone()) {
       this._activeMode = "installed"
-      if (this.hasPanelInstalledTarget) {
-        this.panelInstalledTarget.classList.remove("hidden")
-      }
+      this.panelInstalledTarget?.classList.remove("hidden")
       return
     }
 
-    if (this._isIos()) {
-      this._activeMode = "safari_ios"
-      if (this.hasPanelSafariIosTarget) {
-        this.panelSafariIosTarget.classList.remove("hidden")
-      }
-      return
-    }
-
-    if (this._isSafariMac()) {
-      this._activeMode = "safari_mac"
-      if (this.hasPanelSafariMacTarget) {
-        this.panelSafariMacTarget.classList.remove("hidden")
+    if (this._isSafari()) {
+      if (this._isIos()) {
+        this._activeMode = "safari_ios"
+        this.panelSafariIosTarget?.classList.remove("hidden")
+      } else {
+        this._activeMode = "safari_mac"
+        this.panelSafariMacTarget?.classList.remove("hidden")
       }
       return
     }
 
     this._activeMode = "chromium"
-    if (this.hasPanelChromiumTarget) {
-      this.panelChromiumTarget.classList.remove("hidden")
-    }
-    if (this.hasInstallButtonTarget) {
-      this.installButtonTarget.classList.add("hidden")
-    }
+    this.panelChromiumTarget?.classList.remove("hidden")
+
+    this.installButtonTarget?.classList.add("hidden")
   }
 }
