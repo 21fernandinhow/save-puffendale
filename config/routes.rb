@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   }
 
   # Install PWA
-  get "instalar", to: "install#show"
+  get "install", to: "install#show"
 
   # Home
   get "home", to: "home#index"
