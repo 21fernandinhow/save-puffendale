@@ -50,6 +50,14 @@ class TaskListsController < ApplicationController
     end
   end
 
+  # PATCH /task_lists/reorder
+  def reorder
+    params[:ids].each_with_index do |id, position|
+      current_user.task_lists.where(id: id).update_all(position: position)
+    end
+    head :ok
+  end
+
   # DELETE /task_lists/1 or /task_lists/1.json
   def destroy
     @task_list.destroy!

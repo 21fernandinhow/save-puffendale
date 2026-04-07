@@ -5,7 +5,9 @@
     <p class="mb-8">Confira suas listas de tarefas:</p>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+       data-controller="sortable"
+       data-sortable-url-value="<%= reorder_task_lists_path %>">
 
     <div class="card bg-base-100 shadow-xl">
       <div class="card-body">
@@ -23,10 +25,13 @@
     </div>
 
     <% @task_lists.each do |task_list| %>
-      <div class="card bg-base-100 shadow-xl cursor-pointer hover:shadow-2xl transition"
-          onclick="window.location='<%= task_list_path(task_list) %>'">
+      <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition"
+           data-id="<%= task_list.id %>">
         <div class="card-body">
-          <h2 class="card-title"><%= task_list.name %></h2>
+          <div class="flex items-start justify-between gap-2">
+            <h2 class="card-title flex-1 cursor-pointer" onclick="window.location='<%= task_list_path(task_list) %>'"><%= task_list.name %></h2>
+            <span data-drag-handle class="cursor-grab text-gray-400 hover:text-gray-600 select-none text-xl leading-none mt-1" title="Arrastar">⠿</span>
+          </div>
 
           <% total = task_list.tasks.count %>
           <% completed  = task_list.tasks.where(completed: true).count %>

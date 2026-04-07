@@ -31,6 +31,9 @@ Rails.application.routes.draw do
 
   # TaskLists and Tasks
   resources :task_lists do
+    collection do
+      patch :reorder
+    end
     resources :tasks
   end
 
